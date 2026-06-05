@@ -18,6 +18,7 @@ void MySPI_W_SS(uint8_t BitValue)
   */
 void MySPI_Init(void)
 {
+	// 必须开启SPI外设时钟
 	/*开启时钟*/
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);	//开启GPIOA的时钟
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SPI1, ENABLE);	//开启SPI1的时钟
@@ -86,6 +87,7 @@ void MySPI_Stop(void)
   */
 uint8_t MySPI_SwapByte(uint8_t ByteSend)
 {
+	// not use for to read bit by bit, but 采用阻塞式轮询
 	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) != SET);	//等待发送数据寄存器空
 	
 	SPI_I2S_SendData(SPI1, ByteSend);								//写入数据到发送数据寄存器，开始产生时序
